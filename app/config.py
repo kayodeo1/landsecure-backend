@@ -7,9 +7,10 @@ instance for the production spatial path described in implementation_plan.md §7
 from __future__ import annotations
 
 from functools import lru_cache
+from typing import Annotated
 
 from pydantic import field_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -31,7 +32,12 @@ class Settings(BaseSettings):
     refresh_token_ttl_days: int = 7
 
     # --- CORS (Next.js dev origin) ---
-    cors_origins: list[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    # NoDecode: take the raw env string as-is (comma-separated) instead of letting
+    # pydantic-settings JSON-decode it; the validator below splits it into a list.
+    cors_origins: Annotated[list[str], NoDecode] = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
     # Optional regex to also allow dynamic origins (e.g. Vercel preview URLs):
     #   CORS_ORIGIN_REGEX=https://.*\.vercel\.app
     cors_origin_regex: str | None = None
