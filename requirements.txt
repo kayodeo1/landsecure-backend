@@ -1,0 +1,26 @@
+# LandSecure backend — Python 3.12
+# Pinned to widely-available, pure-wheel versions so it installs without Docker
+# or system build tools on macOS/Linux.
+
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+SQLAlchemy==2.0.36
+pydantic==2.10.4
+pydantic-settings==2.7.1
+PyJWT==2.10.1
+bcrypt==4.2.1
+reportlab==4.2.5
+python-multipart==0.0.20
+
+# --- testing ---
+pytest==8.3.4
+httpx==0.28.1
+
+# --- PostgreSQL driver (used by the Render/production DATABASE_URL) ---
+# Pure-binary wheel: installs without system libpq. Harmless on SQLite dev.
+psycopg[binary]==3.2.3
+
+# --- optional, production PostGIS path (only if you add a real GEOMETRY column) ---
+# alembic==1.14.0             # database migrations (see migrations/)
+# GeoAlchemy2==0.17.0         # real GEOMETRY column for ST_Contains/ST_Distance
+# shapely==2.0.6
